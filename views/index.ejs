@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>EZcoach</title>
+</head>
+<body>
+Add new athletes
+<ul class="athletes">
+    <% for(var i=0; i<athletes.length; i++) {%>
+    <li class="athletes">
+        <span><%= athletes[i].name %></span>
+        <span><%= athletes[i].age %></span>
+    </li>
+    <% } %>
+</ul>
+<form action="/athletes" method="POST">
+    <input type="text" placeholder="name" name="name">
+    <input type="text" placeholder="age" name="age">
+    <button type="submit">Submit</button>
+</form>
+</body>
+</html>

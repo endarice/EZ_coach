@@ -1,0 +1,28 @@
+{
+  "name": "ez_coach",
+  "version": "1.0.0",
+  "description": "\"# EZ_coach\"",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/endarice/EZ_coach.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/endarice/EZ_coach/issues"
+  },
+  "homepage": "https://github.com/endarice/EZ_coach#readme",
+  "dependencies": {
+    "body-parser": "^1.16.1",
+    "ejs": "^2.5.6",
+    "express": "^4.14.1",
+    "mongodb": "^2.2.24"
+  },
+  "devDependencies": {
+    "nodemon": "^1.11.0"
+  }
+}
