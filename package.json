@@ -17,10 +17,14 @@
   },
   "homepage": "https://github.com/endarice/EZ_coach#readme",
   "dependencies": {
+    "angular": "^1.6.2",
+    "bcrypt": "^1.0.2",
+    "bcrypt-nodejs": "0.0.3",
     "body-parser": "^1.16.1",
     "ejs": "^2.5.6",
     "express": "^4.14.1",
-    "mongodb": "^2.2.24"
+    "mongodb": "^2.2.24",
+    "mongoose": "^4.8.4"
   },
   "devDependencies": {
     "nodemon": "^1.11.0"

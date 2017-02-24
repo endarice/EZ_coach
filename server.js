@@ -1,41 +1,31 @@
-const express = require('express')
-const bodyParser= require('body-parser')
-const app = express()
-const MongoClient = require('mongodb').MongoClient
+var express = require('express');
+var app = express();
+var port = process.env.PORT || 8080;
+var morgan = require('morgan');
+var mongoose = require('mongoose');
+var bodyParser = require('body-parser');
+var router = express.Router();
+var routes = require('./app/routes/api')(router);
+var path = require('path');
 
-app.use(bodyParser.urlencoded({extended: true}))
+app.use(morgan('dev'));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended: true}));
+app.use('/api', routes);
+app.use(express.static(__dirname + '/public'));
 
-app.set('view engine', 'ejs')
+mongoose.connect('mongodb://localhost:27017/ezcoach', function(err) {
+    if (err) {
+        console.log('Not connected to the database' + err)
+    } else {
+        console.log('Successfully connected to MongoDB')
+    }
+});
 
-app.get('/', function (req, res) {
-    db.collection('athletes').find().toArray(function(err, results) {
-    	if (err) return console.log(err)
-		res.render('index.ejs', {athletes: results})
-	})
-})
+app.get('*', function(req,res) {
+    res.sendFile(path.join(__dirname + '/public/app/views/index.html'));
+});
 
-app.post('/athletes', function (req, res) {
-	db.collection('athletes').save(req.body, function(err, result) {
-		if (err) return console.log(err)
-   		console.log('saved to database')
-    		res.redirect('/')
-	})
-})
-
-var db 
-
-//MongoClient.connect('mongodb://endarice:er@ds157499.mlab.com:57499/ez_coach', function (err, database) {
-	//if (err) return console.log(err)
-	//db = database
-	//app.listen(3000, function() {
-		//console.log('listening on 3000')
-	//})
-//})
-
-MongoClient.connect('mongodb://localhost:27017/ez_coach', function (err, database) {
-	if (err) return console.log(err)
-	db = database
-	app.listen(3000, function() {
-		console.log('listening on 3000')
-	})
-})
+app.listen(port, function() {
+	console.log('Running the server on ' + port);
+});
