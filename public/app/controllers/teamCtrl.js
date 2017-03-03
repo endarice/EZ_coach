@@ -1,18 +1,17 @@
-angular.module('userControllers', ['userServices', 'authServices'])
+angular.module('teamControllers', ['teamServices'])
 
-.controller('regCtrl', function($http, $location, User, Auth){
+.controller('createTeamCtrl', function($http, $location, Team){
     var app = this;
-    this.regUser = function(regData) {
+    this.createTeam = function(teamData) {
         app.loading = true;
         app.errorMsg = false;
-        User.create(app.regData).then(function(data) {
+        Team.create(app.teamData).then(function(data) {
             console.log(data.data.success);
             console.log(data.data.message);
             if(data.data.success) {
                 app.loading = false;
                 app.successMsg = data.data.message;
-                //Auth.login(app.regData);
-                $location.path('/home');
+                $location.path('/');
             } else {
                 app.loading = false;
                 app.errorMsg = data.data.message;

@@ -5,7 +5,8 @@ var bcrypt = require('bcrypt-nodejs');
 var UserSchema = new Schema({
     username: {type: String, lowercase: true, required: true, unique: true},
     password: {type: String, required: true},
-    email: {type: String, lowercase: true, required: true, unique: true}
+    email: {type: String, lowercase: true, required: true, unique: true},
+    teams: [{ type: Schema.Types.ObjectId, ref: 'Team' }]
 });
 
 UserSchema.pre('save', function(next) {

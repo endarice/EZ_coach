@@ -42,5 +42,5 @@ angular.module('mainController', ['authServices'])
         $timeout(function () {
             $location.path('/');
         }, 2000);
-    }
+    };
 });

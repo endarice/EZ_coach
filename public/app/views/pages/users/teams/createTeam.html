@@ -1,0 +1,17 @@
+<div class="page-header">
+    <h1>Create Team</h1>
+</div>
+
+<form ng-submit="createTeam.createTeam(teamData);">
+    <label>Name</label>
+    <input class="form-control" type="text" name="name" placeholder="Please enter team name" ng-model="createTeam.teamData.name">
+    <br>
+    <label>Sport</label>
+    <input class="form-control" type="text" name="username" placeholder="Please enter sport" ng-model="createTeam.teamData.type">
+    <br>
+    <label>Age Group</label>
+    <input class="form-control" type="text" name="password" placeholder="Please enter age group of team" ng-model="createTeam.teamData.ageGroup">
+    <br>
+    <button class="btn btn-primary" type="submit">Create Team</button>
+    <label>{{ main }}</label>
+</form>
