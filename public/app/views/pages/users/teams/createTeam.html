@@ -2,16 +2,27 @@
     <h1>Create Team</h1>
 </div>
 
-<form ng-submit="createTeam.createTeam(teamData);">
+<form ng-submit="team.createTeam(teamData)" ng-init="team.teamData.username = main.username">
     <label>Name</label>
-    <input class="form-control" type="text" name="name" placeholder="Please enter team name" ng-model="createTeam.teamData.name">
+    <input class="form-control" type="text" name="name" placeholder="Please enter team name" ng-model="team.teamData.name">
     <br>
     <label>Sport</label>
-    <input class="form-control" type="text" name="username" placeholder="Please enter sport" ng-model="createTeam.teamData.type">
+    <input class="form-control" type="text" name="username" placeholder="Please enter sport" ng-model="team.teamData.type">
     <br>
     <label>Age Group</label>
-    <input class="form-control" type="text" name="password" placeholder="Please enter age group of team" ng-model="createTeam.teamData.ageGroup">
+    <input class="form-control" type="text" name="password" placeholder="Please enter age group of team" ng-model="team.teamData.ageGroup">
     <br>
     <button class="btn btn-primary" type="submit">Create Team</button>
-    <label>{{ main }}</label>
+    <br>
+    <div class="jumbotron text-center" ng-show="team.loading">
+        <span class="glyphicon glyphicon-repeat spinner"></span>
+        <p>Loading...</p>
+    </div>
+    <div ng-show="team.successMsg">
+        <div class="alert alert-success">{{team.successMsg}}</div>
+    </div>
+    <br>
+    <div ng-show="team.errorMsg">
+        <div class="alert alert-danger">{{team.errorMsg}}</div>
+    </div>
 </form>

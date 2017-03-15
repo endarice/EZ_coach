@@ -1,5 +1,6 @@
 var User = require('../models/user');
 var Team = require('../models/team');
+var TeamMember = require('../models/teamMember');
 var jwt = require('jsonwebtoken');
 var secret = 'bacon';
 
@@ -7,7 +8,7 @@ module.exports = function(router) {
     router.post('/users', function (req, res) {
         var user = new User();
         user.username = req.body.username;
-        user.password = req.body.password;
+        user.password = user.setPassword(req.body.password);
         user.email = req.body.email;
         if (req.body.username == null || req.body.password == null || req.body.email == null ||
             req.body.username === '' || req.body.password === '' || req.body.email === '') {
@@ -24,7 +25,6 @@ module.exports = function(router) {
     });
 
     router.post('/authenticate', function (req,res){
-        console.log(req.body.username);
         User.findOne({ username: req.body.username }).select('email username password').exec(function(err, user) {
             if (err) throw err;
             if(!user) {
@@ -54,12 +54,64 @@ module.exports = function(router) {
             req.body.name === '' || req.body.type === '' || req.body.ageGroup === '') {
             res.json({success: false, message:'Ensure all fields have been filled'});
         } else {
-            team.save(function (err) {
+            User.findOne({username: req.body.username}, '_id team', function (err, user) {
                 if (err) {
-                    res.json({success: false, message:'Team with this name already exists'});
-                } else {
-                    res.json({success: true, message:'Team created'});
+                    res.json({success: false, message: 'Could not find manager'});
                 }
+                team.manager = user._id;
+                team.save(function (err) {
+                    if (err) {
+                        res.json({success: false, message:'Team with this name already exists'});
+                    }
+                    Team.findOne({name: team.name}, '_id', function (err, team) {
+                        if (err) {
+                            res.json({success: false, message: 'Could not find manager'});
+                        }
+                        user.team.push(team._id);
+                        user.save(function (err) {
+                            if (err) {
+                                res.json({success: false, message: 'Team with this name already exists'});
+                            } else {
+                                res.json({success: true, message: 'Team added to user'});
+                            }
+                        });
+                    });
+                });
+            });
+        }
+    });
+
+    router.post('/addMember', function (req, res) {
+        console.log(req.body);
+        var member = new TeamMember();
+        member.fname = req.body.fname;
+        member.sname = req.body.sname;
+        member.email = req.body.email;
+        if (req.body.fname == null || req.body.sname == null || req.body.email == null ||
+            req.body.fname === '' || req.body.sname === '' || req.body.email === '') {
+            res.json({success: false, message:'Ensure all fields have been filled'});
+        } else {
+            Team.findOne({name: req.body.teamname}, '_id member', function (err, team) {
+                if (err) {
+                    res.json({success: false, message: 'Could not find team'});
+                }
+                member.team = team._id;
+                member.save(function (err) {
+                    console.log(member.email);
+                    TeamMember.findOne({email: member.email}, '_id', function (err, member) {
+                        if (err) {
+                            res.json({success: false, message: 'Could not find team member'});
+                        }
+                        team.member.push(member._id);
+                        team.save(function (err) {
+                            if (err) {
+                                res.json({success: false, message: 'Member with this email already exists'});
+                            } else {
+                                res.json({success: true, message: 'Member added to team'});
+                            }
+                        });
+                    });
+                });
             });
         }
     });
@@ -80,9 +132,46 @@ module.exports = function(router) {
         }
     });
 
-
     router.post('/profile', function (req,res) {
         res.send(req.decoded);
     });
+
+    router.post('/getTeams', function (req,res) {
+        User.findOne({username: req.decoded.username}, '_id', function (err, user) {
+            if (err) {
+                res.json({success: false, message: 'Could not find user'});
+            }
+            Team.find({manager: user._id}, 'name type ageGroup member', function (err, team) {
+                if (err) {
+                    res.json({success: false, message: 'Could not find manager'});
+                }
+                req.team = team;
+                res.send(req.team);
+            });
+        });
+    });
+
+    router.post('/getTeam', function (req,res) {
+        Team.findOne({name: req.body.name}, 'name type ageGroup member', function (err, team) {
+            if (err) {
+                res.json({success: false, message: 'Could not find manager'});
+            }
+            req.team = team;
+            res.send(req.team);
+        });
+    });
+
+    router.post('/getMembers', function (req,res) {
+        console.log(req.body.id);
+        TeamMember.find({team: req.body.id}, 'fname sname email performanceData', function (err, members) {
+            console.log(members);
+            if (err) {
+                res.json({success: false, message: 'Could not find manager'});
+            }
+            req.members = members;
+            res.send(req.members);
+        });
+    });
+
     return router;
 };

@@ -1,36 +1,25 @@
-<div class="page-header">
-    <h1>User Login</h1>
-</div>
-
-<form ng-submit="main.login(loginData);">
-    <label>Username</label>
-    <input class="form-control" type="text" name="username" placeholder="Please enter username" ng-model="main.loginData.username">
-    <br>
-    <label>Password</label>
-    <input class="form-control" type="password" name="password" placeholder="Please enter password" ng-model="main.loginData.password">
-    <br>
-    <button class="btn btn-primary" type="submit">Login</button>
-    <br>
-</form>
-
-<br>
-<label>Don't have an account?</label>
-<br>
-<a href="/register" class="btn btn-primary">Register</a>
-
-<br>
-
-<div class="jumbotron text-center" ng-show="main.loading">
-    <span class="glyphicon glyphicon-repeat spinner"></span>
-    <p>Loading...</p>
-</div>
-
-<div class="row show-hide-message" ng-show="main.successMsg">
-    <div class="alert alert-success">{{main.successMsg}}</div>
-</div>
-
-<br>
-
-<div class="row show-hide-message" ng-show="main.errorMsg">
-    <div class="alert alert-danger">{{main.errorMsg}}</div>
-</div>
+<!--<div class="background">-->
+    <a href="/register" class="btn top-right">Register</a>
+    <form class="login-form" ng-submit="main.login(loginData);">
+        <h1>User Login</h1>
+        <label>Username</label>
+        <input class="form-control" type="text" name="username" placeholder="Please enter username" ng-model="main.loginData.username">
+        <br>
+        <label>Password</label>
+        <input class="form-control" type="password" name="password" placeholder="Please enter password" ng-model="main.loginData.password">
+        <br>
+        <button class="btn form-btn" type="submit">Login</button>
+        <br>
+        <div class="jumbotron text-center login-form" ng-show="main.loading">
+            <span class="glyphicon glyphicon-repeat spinner"></span>
+            <p>Loading...</p>
+        </div>
+        <div ng-show="main.successMsg">
+            <div class="alert alert-success">{{main.successMsg}}</div>
+        </div>
+        <br>
+        <div ng-show="main.errorMsg">
+            <div class="alert alert-danger">{{main.errorMsg}}</div>
+        </div>
+    </form>
+<!--</div>-->

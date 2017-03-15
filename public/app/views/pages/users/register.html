@@ -1,8 +1,8 @@
-<div class="page-header">
-    <h1>User Registration</h1>
-</div>
+<div class="background">
+    <a href="/login" class="btn top-right">Login</a>
 
-<form ng-submit="register.regUser(regData);">
+<form class="login-form" ng-submit="register.regUser(regData);">
+    <h1>User Registration</h1>
     <label>Email</label>
     <input class="form-control" type="text" name="email" placeholder="Please enter email" ng-model="register.regData.email">
     <br>
@@ -12,22 +12,18 @@
     <label>Password</label>
     <input class="form-control" type="password" name="password" placeholder="Please enter password" ng-model="register.regData.password">
     <br>
-    <button class="btn btn-primary" type="submit">Register</button>
+    <button class="btn form-btn" type="submit">Register</button>
+    <br>
+    <div class="jumbotron text-center" ng-show="register.loading">
+        <span class="glyphicon glyphicon-repeat spinner"></span>
+        <p>Loading...</p>
+    </div>
+    <div ng-show="register.successMsg">
+        <div class="alert alert-success">{{register.successMsg}}</div>
+    </div>
+    <br>
+    <div ng-show="register.errorMsg">
+        <div class="alert alert-danger">{{register.errorMsg}}</div>
+    </div>
 </form>
-
-<br>
-
-<div class="jumbotron text-center" ng-show="register.loading">
-    <span class="glyphicon glyphicon-repeat spinner"></span>
-    <p>Loading...</p>
-</div>
-
-<div class="row show-hide-message" ng-show="register.successMsg">
-    <div class="alert alert-success">{{register.successMsg}}</div>
-</div>
-
-<br>
-
-<div class="row show-hide-message" ng-show="register.errorMsg">
-    <div class="alert alert-danger">{{register.errorMsg}}</div>
 </div>

@@ -6,17 +6,16 @@ var UserSchema = new Schema({
     username: {type: String, lowercase: true, required: true, unique: true},
     password: {type: String, required: true},
     email: {type: String, lowercase: true, required: true, unique: true},
-    teams: [{ type: Schema.Types.ObjectId, ref: 'Team' }]
+    team: [{type: String, ref: 'Team'}]
 });
 
-UserSchema.pre('save', function(next) {
+UserSchema.methods.setPassword = function(password) {
     var user = this;
-    bcrypt.hash(user.password, null, null, function(err, hash) {
-        if (err) return next(err);
-        user.password = hash;
-        next();
-    });
-});
+    bcrypt.hash(password, null, null, function(err, hash) {
+        if (err) return (err);
+         user.password = hash;
+     });
+};
 
 UserSchema.methods.comparePassword = function(password) {
     return bcrypt.compareSync(password, this.password);

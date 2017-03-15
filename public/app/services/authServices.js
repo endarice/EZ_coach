@@ -2,6 +2,7 @@ angular.module('authServices', [])
 
 .factory('Auth', function($http, AuthToken) {
     authFactory = {};
+
     authFactory.login = function(loginData) {
         return $http.post('api/authenticate', loginData).then(function (data) {
             AuthToken.setToken(data.data.token);
@@ -21,6 +22,27 @@ angular.module('authServices', [])
     authFactory.getProfile = function(){
         if(AuthToken.getToken()) {
             return $http.post('api/profile');
+        } else {
+            $q.reject({ message: 'User has no token'})
+        }
+    };
+    authFactory.getTeams = function() {
+        if(AuthToken.getToken()) {
+            return $http.post('api/getTeams');
+        } else {
+            $q.reject({ message: 'User has no token'})
+        }
+    };
+    authFactory.getTeam = function(teamname) {
+        if(AuthToken.getToken()) {
+            return $http.post('api/getTeam', {"name": teamname});
+        } else {
+            $q.reject({ message: 'User has no token'})
+        }
+    };
+    authFactory.getMembers = function(id) {
+        if(AuthToken.getToken()) {
+            return $http.post('api/getMembers', {"id": id});
         } else {
             $q.reject({ message: 'User has no token'})
         }

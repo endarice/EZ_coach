@@ -29,8 +29,14 @@ angular.module('appRoutes', ['ngRoute'])
         })
         .when('/createTeam', {
             templateUrl: 'app/views/pages/users/teams/createTeam.html',
-            controller: 'createTeamCtrl',
-            controllerAs: 'createTeam',
+            controller: 'teamCtrl',
+            controllerAs: 'team',
+            authenticated: true
+        })
+        .when('/showTeam/:team_name', {
+            templateUrl: 'app/views/pages/users/teams/showTeam.html',
+            controller: 'teamCtrl',
+            controllerAs: 'team',
             authenticated: true
         })
         .otherwise({redirectTo: '/'});

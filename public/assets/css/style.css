@@ -1,5 +1,64 @@
 main {
-    padding-top:30px;
+    padding-top:50px;
+    padding-left: 30px;
+    padding-right: 30px;
+}
+
+.top-right {
+    position: absolute;
+    top: 30px;
+    right: 30px;
+    color: #000000;
+    background-color: #f4f7f8;
+    border-color: #f4f7f8;
+}
+
+.btn-right {
+    float: right !important;
+}
+
+.form-btn {
+    color: #f4f7f8;
+    background-color: #bd081c;
+    border-color: #bd081c;
+}
+
+.background {
+    background: url(../images/login_background.jpg) no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    height: 100%;
+}
+
+.cover {
+    height: 100%;
+}
+
+.add-user-form{
+    max-width: 700px;
+    padding: 10px 20px;
+    background: #f4f7f8;
+    margin: 10px auto;
+    padding: 20px;
+    background: #f4f7f8;
+    border-radius: 8px;
+    font-family: Georgia, "Times New Roman", Times, serif;
+}
+
+.login-form{
+    max-width: 500px;
+    padding: 10px 20px;
+    background: #f4f7f8;
+    margin: 10px auto;
+    padding: 20px;
+    background: #f4f7f8;
+    border-radius: 8px;
+    font-family: Georgia, "Times New Roman", Times, serif;
+    position: relative;
+    top: 50%;
+    transform: translateY(50%);
 }
 
 header .navbar {
