@@ -8,5 +8,8 @@ angular.module('teamServices', [])
     teamFactory.addMember = function(memberData) {
         return $http.post('api/addMember', memberData);
     };
+    teamFactory.addPerformanceData = function(performanceData) {
+        return $http.post('api/addPerformanceData', {performanceData: performanceData});
+    };
     return teamFactory;
 });

@@ -2,6 +2,7 @@ var User = require('../models/user');
 var Team = require('../models/team');
 var TeamMember = require('../models/teamMember');
 var jwt = require('jsonwebtoken');
+var _ = require('lodash');
 var secret = 'bacon';
 
 module.exports = function(router) {
@@ -82,7 +83,6 @@ module.exports = function(router) {
     });
 
     router.post('/addMember', function (req, res) {
-        console.log(req.body);
         var member = new TeamMember();
         member.fname = req.body.fname;
         member.sname = req.body.sname;
@@ -97,7 +97,6 @@ module.exports = function(router) {
                 }
                 member.team = team._id;
                 member.save(function (err) {
-                    console.log(member.email);
                     TeamMember.findOne({email: member.email}, '_id', function (err, member) {
                         if (err) {
                             res.json({success: false, message: 'Could not find team member'});
@@ -162,9 +161,7 @@ module.exports = function(router) {
     });
 
     router.post('/getMembers', function (req,res) {
-        console.log(req.body.id);
-        TeamMember.find({team: req.body.id}, 'fname sname email performanceData', function (err, members) {
-            console.log(members);
+        TeamMember.find({team: req.body.id}, '_id fname sname email performanceData', function (err, members) {
             if (err) {
                 res.json({success: false, message: 'Could not find manager'});
             }
@@ -173,5 +170,36 @@ module.exports = function(router) {
         });
     });
 
+    router.post('/getMember', function (req,res) {
+        TeamMember.findOne({_id: req.body.id}, 'fname sname email performanceData', function (err, member) {
+            if (err) {
+                res.json({success: false, message: 'Could not find manager'});
+            }
+            req.member = member;
+            res.send(req.member);
+        });
+    });
+
+    router.post('/addPerformanceData', function (req,res) {
+        console.log(req.body.performanceData);
+        TeamMember.find({team: req.body.performanceData.team}, 'performanceData', function (err, members) {
+            console.log(members);
+            if (err) {
+                res.json({success: false, message: 'Could not find team member'});
+            }
+            var perfData = _.omit(req.body.performanceData, 'team');
+            console.log(perfData);
+            members.forEach( function (member) {
+                console.log(member);
+                member.performanceData.push({type: perfData.type, units: perfData.units});
+                member.save(function (err) {
+                    if (err) {
+                        res.json({success: false, message: 'Could not add performance data to member'});
+                    }
+                });
+            });
+        });
+    });
+    
     return router;
 };

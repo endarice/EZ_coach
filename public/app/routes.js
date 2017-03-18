@@ -39,6 +39,12 @@ angular.module('appRoutes', ['ngRoute'])
             controllerAs: 'team',
             authenticated: true
         })
+        .when('/showTeam/:team_name/showMember/:member_name', {
+            templateUrl: 'app/views/pages/users/teams/members/showMember.html',
+            controller: 'teamCtrl',
+            controllerAs: 'team',
+            authenticated: true
+        })
         .otherwise({redirectTo: '/'});
 
     $locationProvider.html5Mode({enabled: true, requireBase: false});

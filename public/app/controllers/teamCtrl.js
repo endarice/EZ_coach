@@ -23,7 +23,6 @@ angular.module('teamControllers', ['teamServices'])
     this.addTeamMember = function(memberData) {
         app.loading = true;
         app.errorMsg = false;
-        console.log(memberData);
         Team.addMember(app.memberData).then(function(data) {
             console.log(data.data.success);
             console.log(data.data.message);
@@ -37,4 +36,22 @@ angular.module('teamControllers', ['teamServices'])
             }
         })
     };
+
+    this.addData = function(performanceData) {
+        app.loadingD = true;
+        app.errorMsg = false;
+        console.log(app.performanceData);
+        Team.addPerformanceData(app.performanceData).then(function(data) {
+            console.log(data.data.success);
+            console.log(data.data.message);
+            if(data.data.success) {
+                app.loadingD = false;
+                app.successMsg = data.data.message;
+                $route.reload();
+            } else {
+                app.loadingD = false;
+                app.errorMsg = data.data.message;
+            }
+        })
+    }
 });

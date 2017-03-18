@@ -32,6 +32,15 @@ main {
     height: 100%;
 }
 
+.background2 {
+    background: url(../images/home_background.png) no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    height: 100%;
+}
+
 .cover {
     height: 100%;
 }
@@ -40,11 +49,10 @@ main {
     max-width: 700px;
     padding: 10px 20px;
     background: #f4f7f8;
-    margin: 10px auto;
     padding: 20px;
     background: #f4f7f8;
-    border-radius: 8px;
     font-family: Georgia, "Times New Roman", Times, serif;
+    max-height: 72px;
 }
 
 .login-form{

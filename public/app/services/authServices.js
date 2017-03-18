@@ -47,6 +47,13 @@ angular.module('authServices', [])
             $q.reject({ message: 'User has no token'})
         }
     };
+    authFactory.getMember = function(id) {
+        if(AuthToken.getToken()) {
+            return $http.post('api/getMember', {"id": id});
+        } else {
+            $q.reject({ message: 'User has no token'})
+        }
+    };
     return authFactory;
 })
 

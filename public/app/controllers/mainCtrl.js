@@ -1,6 +1,6 @@
 angular.module('mainController', ['authServices'])
 
-.controller('mainCtrl', function(Auth, $location, $timeout, $rootScope, $routeParams) {
+.controller('mainCtrl', function(Auth, $location, $timeout, $rootScope) {
     var app = this;
 
     app.loadme = false;
@@ -9,12 +9,15 @@ angular.module('mainController', ['authServices'])
         if(Auth.isLoggedIn()) {
             app.isLoggedIn = true;
             app.name = next.pathParams.team_name;
+            app.membername = next.pathParams.member_name;
             Auth.getTeam(app.name).then(function (team) {
-                console.log(team.data);
                 app.team = team.data;
                 Auth.getMembers(app.team._id).then(function (members) {
                     app.members = members.data;
                 })
+            });
+            Auth.getMember(app.membername). then(function (member) {
+                app.member = member.data
             });
             Auth.getProfile().then(function(data) {
                 app.username = data.data.username;
@@ -30,6 +33,10 @@ angular.module('mainController', ['authServices'])
             app.loadme = true;
         }
     });
+
+    this.goToMember = function(member) {
+        $location.path('/showTeam/'+app.team.name+'/showMember/'+member._id);
+    };
 
     this.login = function(loginData) {
         app.loading = true;
