@@ -182,24 +182,57 @@ module.exports = function(router) {
 
     router.post('/addPerformanceData', function (req,res) {
         console.log(req.body.performanceData);
-        TeamMember.find({team: req.body.performanceData.team}, 'performanceData', function (err, members) {
-            console.log(members);
-            if (err) {
-                res.json({success: false, message: 'Could not find team member'});
-            }
-            var perfData = _.omit(req.body.performanceData, 'team');
-            console.log(perfData);
-            members.forEach( function (member) {
+        if (req.body.performanceData.type == null || req.body.performanceData.units == null ||
+            req.body.performanceData.type === '' || req.body.performanceData.units === '') {
+            res.json({success: false, message:'Ensure all fields have been filled'});
+        } else {
+            TeamMember.find({team: req.body.performanceData.team}, 'performanceData', function (err, members) {
+                console.log(members);
+                if (err) {
+                    res.json({success: false, message: 'Could not find team member'});
+                }
+                var perfData = _.omit(req.body.performanceData, 'team');
+                console.log(perfData);
+                members.forEach(function (member) {
+                    console.log(member);
+                    member.performanceData.push({type: perfData.type, units: perfData.units});
+                    member.save(function (err) {
+                        if (err) {
+                            res.json({success: false, message: 'Could not add performance data to member'});
+                        }
+                    });
+                });
+                res.json({success: true, message: 'Performance data added'});
+            });
+        }
+    });
+
+    router.post('/addPerformanceValues', function (req,res) {
+        console.log(req.body.performanceValues);
+        if (req.body.performanceValues.value == null || req.body.performanceValues.date == null ||
+            req.body.performanceValues.value === '' || req.body.performanceValues.date === '') {
+            res.json({success: false, message:'Ensure all fields have been filled'});
+        } else {
+            TeamMember.findOne({_id: req.body.performanceValues.member_id}, 'performanceData', function (err, member) {
                 console.log(member);
-                member.performanceData.push({type: perfData.type, units: perfData.units});
-                member.save(function (err) {
-                    if (err) {
-                        res.json({success: false, message: 'Could not add performance data to member'});
+                if (err) {
+                    res.json({success: false, message: 'Could not find team member'});
+                }
+                member.performanceData.forEach(function (perfData) {
+                    if (perfData.type == req.body.performanceValues.type) {
+                        perfData.value.push({ data: req.body.performanceValues.value, date: req.body.performanceValues.date });
+                        member.save(function (err) {
+                            if (err) {
+                                res.json({success: false, message: 'Could not add performance data to member'});
+                            } else {
+                                res.json({success: true, message: 'Values added'});
+                            }
+                        });
                     }
                 });
             });
-        });
+        }
     });
-    
+
     return router;
 };

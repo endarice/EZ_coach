@@ -11,5 +11,8 @@ angular.module('teamServices', [])
     teamFactory.addPerformanceData = function(performanceData) {
         return $http.post('api/addPerformanceData', {performanceData: performanceData});
     };
+    teamFactory.addValues = function(performanceValues) {
+        return $http.post('api/addPerformanceValues', {performanceValues: performanceValues});
+    };
     return teamFactory;
 });

@@ -6,7 +6,7 @@ var TeamMemberSchema = new Schema({
     sname: {type: String, required: true},
     email: {type: String, lowercase: true, required: true, unique: true},
     team: {type: String, ref: 'Team'},
-    performanceData : [{type: {type: String}, units: {type: String}, value: [{data: {type: number}, date:{type: Date}}]}]
+    performanceData : [{type: {type: String}, units: {type: String}, value: [{data: {type: Number}, date:{type: Date}}]}]
 });
 
 module.exports = mongoose.model('TeamMember', TeamMemberSchema);

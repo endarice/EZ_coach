@@ -1,6 +1,6 @@
 <div class="container" style="padding-top: 30px">
     <div class="col-sm-3" style="width:400px;">
-        <div class="panel panel-info">
+        <div class="panel panel-danger">
             <div class="panel-heading" style="text-align: center;"><strong>Player</strong></div>
             <table class="table table-striped table-hover">
                 <tr>
@@ -9,26 +9,17 @@
             </table>
         </div>
     </div>
-    <div class="col-sm-7" style="float: right !important; width:700px;">
-        <form class="form-inline add-user-form" ng-submit="team.memberData.teamname = main.team.name; team.addTeamMember(memberData)">
-
-            <input class="form-control" type="text" name="fname" placeholder="First name" ng-model="team.memberData.fname">
-            <input class="form-control" type="text" name="sname" placeholder="Last name" ng-model="team.memberData.sname">
-            <input class="form-control" type="text" name="email" placeholder="Email" ng-model="team.memberData.email">
-            <button class="btn btn-primary" type="submit">Add</button>
-            <br>
-            <div class="jumbotron text-center login-form" ng-show="team.loading">
-                <span class="glyphicon glyphicon-repeat spinner"></span>
-                <p>Loading...</p>
+    <div ng-repeat="perfData in main.member.performanceData">
+        <div class="col-sm-7" style="float: right !important; width:700px;">
+            <div class="panel panel-danger">
+                <div class="panel-heading" style="text-align: center;"><strong>Enter Value for {{perfData.type}} and date recorded</strong></div>
+                <form class="form-inline add-user-form" ng-submit= "team.performanceValues.type = perfData.type; team.performanceValues.member_id = main.member._id; team.addValues(performanceValues)">
+                    <input class="form-control" type="text" name="value" placeholder="Performance Value" ng-model="team.performanceValues.value">
+                    <label>{{perfData.units}}</label>
+                    <input class="form-control" type="date" name="date" placeholder="yyyy-MM-dd" ng-model="team.performanceValues.date">
+                    <button class="btn btn-primary" type="submit">Add</button>
+                </form>
             </div>
-            <br>
-            <div ng-show="team.successMsg">
-                <div class="alert alert-success">{{team.successMsg}}</div>
-            </div>
-            <br>
-            <div ng-show="team.errorMsg">
-                <div class="alert alert-danger">{{team.errorMsg}}</div>
-            </div>
-        </form>
+        </div>
     </div>
 </div>

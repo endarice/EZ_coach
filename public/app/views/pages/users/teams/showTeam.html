@@ -27,9 +27,9 @@
         <div class="panel panel-danger">
         <div class="panel-heading" style="text-align: center;"><strong>Add New Member</strong></div>
         <form class="form-inline add-user-form" ng-submit="team.memberData.teamname = main.team.name; team.addTeamMember(memberData)">
-            <input class="form-control" type="text" name="fname" placeholder="First name" ng-model="team.memberData.fname">
-            <input class="form-control" type="text" name="sname" placeholder="Last name" ng-model="team.memberData.sname">
-            <input class="form-control" type="text" name="email" placeholder="Email" ng-model="team.memberData.email">
+            <input class="form-control" type="text" size="18" name="fname" placeholder="First name" ng-model="team.memberData.fname">
+            <input class="form-control" type="text" size="18" ame="sname" placeholder="Last name" ng-model="team.memberData.sname">
+            <input class="form-control" type="text" size="18" name="email" placeholder="Email" ng-model="team.memberData.email">
             <button class="btn btn-primary" type="submit">Add</button>
             <br>
             <div class="jumbotron text-center login-form" ng-show="team.loading">
@@ -53,6 +53,19 @@
                 <input class="form-control" style="width:365px" type="text" name="type" placeholder="Monitoring type eg. 100 metres times, weight" ng-model="team.performanceData.type">
                 <input class="form-control" type="text" name="units" placeholder="Units" ng-model="team.performanceData.units">
                 <button class="btn btn-primary" type="submit">Add</button>
+                <br>
+                <div class="jumbotron text-center login-form" ng-show="team.loadingD">
+                    <span class="glyphicon glyphicon-repeat spinner"></span>
+                    <p>Loading...</p>
+                </div>
+                <br>
+                <div ng-show="team.successMsgD">
+                    <div class="alert alert-success">{{team.successMsgD}}</div>
+                </div>
+                <br>
+                <div ng-show="team.errorMsgD">
+                    <div class="alert alert-danger">{{team.errorMsgD}}</div>
+                </div>
             </form>
         </div>
 

@@ -39,19 +39,37 @@ angular.module('teamControllers', ['teamServices'])
 
     this.addData = function(performanceData) {
         app.loadingD = true;
-        app.errorMsg = false;
+        app.errorMsgD = false;
         console.log(app.performanceData);
         Team.addPerformanceData(app.performanceData).then(function(data) {
             console.log(data.data.success);
             console.log(data.data.message);
             if(data.data.success) {
                 app.loadingD = false;
-                app.successMsg = data.data.message;
+                app.successMsgD = data.data.message;
                 $route.reload();
             } else {
                 app.loadingD = false;
+                app.errorMsgD = data.data.message;
+            }
+        })
+    };
+
+    this.addValues = function(performanceValues) {
+        app.loadingV = true;
+        app.errorMsg = false;
+        console.log(app.performanceValues);
+        Team.addValues(app.performanceValues).then(function(data) {
+            console.log(data.data.success);
+            console.log(data.data.message);
+            if(data.data.success) {
+                app.loadingV = false;
+                app.successMsg = data.data.message;
+                $route.reload();
+            } else {
+                app.loadingV = false;
                 app.errorMsg = data.data.message;
             }
         })
-    }
+    };
 });
