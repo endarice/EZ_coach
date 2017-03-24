@@ -1,7 +1,19 @@
 angular.module('teamControllers', ['teamServices'])
 
-.controller('teamCtrl', function($http, $location, $route, Team){
+.controller('teamCtrl', function($http, $location, $routeParams, Team, Auth){
     var app = this;
+
+    app.name = $routeParams.team_name;
+    Auth.getTeam(app.name).then(function (team) {
+        app.team = team.data;
+        Auth.getMembers(app.team._id).then(function (members) {
+            app.members = members.data;
+        })
+    });
+
+    this.goToMember = function(member) {
+        $location.path('/showTeam/'+app.team.name+'/showMember/'+member._id);
+    };
 
     this.createTeam = function(teamData) {
         app.loading = true;
@@ -51,24 +63,6 @@ angular.module('teamControllers', ['teamServices'])
             } else {
                 app.loadingD = false;
                 app.errorMsgD = data.data.message;
-            }
-        })
-    };
-
-    this.addValues = function(performanceValues) {
-        app.loadingV = true;
-        app.errorMsg = false;
-        console.log(app.performanceValues);
-        Team.addValues(app.performanceValues).then(function(data) {
-            console.log(data.data.success);
-            console.log(data.data.message);
-            if(data.data.success) {
-                app.loadingV = false;
-                app.successMsg = data.data.message;
-                $route.reload();
-            } else {
-                app.loadingV = false;
-                app.errorMsg = data.data.message;
             }
         })
     };

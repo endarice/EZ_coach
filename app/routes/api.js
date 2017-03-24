@@ -175,6 +175,7 @@ module.exports = function(router) {
             if (err) {
                 res.json({success: false, message: 'Could not find manager'});
             }
+            console.log(member);
             req.member = member;
             res.send(req.member);
         });
