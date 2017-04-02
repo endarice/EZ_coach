@@ -1,39 +1,40 @@
 angular.module('memberController', ['authServices'])
 
+.directive('hcChart', function () {
+    return {
+        restrict: 'E',
+        template: '<div></div>',
+        scope: {
+            options: '='
+        },
+        link: function (scope, element) {
+            Highcharts.chart(element[0], scope.options);
+            scope.$watch('options', function(newVal) {
+                if (newVal) {
+                    Highcharts.chart(element[0], scope.options);
+                }
+            }, true);
+        }
+    };
+})
+
 .controller('memberCtrl', function(Auth, $http, $location, $routeParams, $route, Team) {
     var app = this;
 
-    // app.chart = {
-    //     "caption": "Sales - 2012 v 2013",
-    //     "numberprefix": "$",
-    //     "plotgradientcolor": "",
-    //     "bgcolor": "FFFFFF",
-    //     "showalternatehgridcolor": "0",
-    //     "divlinecolor": "CCCCCC",
-    //     "showvalues": "0",
-    //     "showcanvasborder": "0",
-    //     "canvasborderalpha": "0",
-    //     "canvasbordercolor": "CCCCCC",
-    //     "canvasborderthickness": "1",
-    //     "yaxismaxvalue": "30000",
-    //     "captionpadding": "30",
-    //     "linethickness": "3",
-    //     "yaxisvaluespadding": "15",
-    //     "legendshadow": "0",
-    //     "legendborderalpha": "0",
-    //     "palettecolors": "#f8bd19,#008ee4,#33bdda,#e44a00,#6baa01,#583e78",
-    //     "showborder": "0"
-    // };
+    app.chartOptions = {};
 
-    app.chart = {};
-    app.categories = [];
-    app.dataset = [];
+    app.chartOptions.xAxis = {
+        type: 'datetime',
+        dateTimeLabelFormats: {
+            month: '%e. %b',
+            year: '%e. %b'
+        },
+        title: {
+            text: 'Date'
+        }
+    };
 
     app.currentItem = null;
-    app.dataSource = {
-        chart: {caption: ""} ,
-        data: {value: ""}
-    };
 
     app.membername = $routeParams.member_name;
     Auth.getMember(app.membername). then(function (member) {
@@ -49,19 +50,26 @@ angular.module('memberController', ['authServices'])
 
     this.setDataSource = function(currItem) {
         app.dataArray = [];
-        app.catArray = [];
-        currItem.value.forEach(function (value) {
-            app.dataArray.push({
-               "value": value.data
-            });
-            app.catArray.push({
-                "label": value.date
-            });
+        currItem.value.sort(function(a, b) {
+            return (a.date < b.date) ? -1 : ((a.date > b.date) ? 1 : 0);
         });
-        app.chart = {caption: currItem.type,
-                     numberSuffix: currItem.units};
-        app.categories = [{category: app.catArray}];
-        app.dataset = [{data: app.dataArray}];
+        currItem.value.forEach(function (value) {
+            var year = new Date(value.date).getFullYear();
+            var month = new Date(value.date).getMonth();
+            var day = new Date(value.date).getDate();
+            app.dataArray.push(
+                [Date.UTC(year, month, day), value.data]
+            );
+        });
+        app.chartOptions.title = {
+                text: currItem.type
+        };
+        app.chartOptions.yAxis = {
+            title: {
+                text: currItem.units
+            }
+        };
+        app.chartOptions.series = [{name: currItem.type, data: app.dataArray}];
     };
 
     this.addValues = function(performanceValues) {

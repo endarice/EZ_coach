@@ -18,6 +18,7 @@
   "homepage": "https://github.com/endarice/EZ_coach#readme",
   "dependencies": {
     "angular": "^1.6.2",
+    "angular-bootstrap-calendar": "^0.28.3",
     "angular-material": "^1.1.3",
     "bcrypt": "^1.0.2",
     "bcrypt-nodejs": "0.0.3",
@@ -26,8 +27,10 @@
     "ejs": "^2.5.6",
     "express": "^4.14.1",
     "fusioncharts": "^3.12.0",
+    "highcharts": "^5.0.10",
     "jsonwebtoken": "^7.3.0",
     "lodash": "^4.17.4",
+    "moment": "^2.18.1",
     "mongodb": "^2.2.24",
     "mongoose": "^4.8.4"
   },

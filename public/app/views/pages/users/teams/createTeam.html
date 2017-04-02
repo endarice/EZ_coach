@@ -1,28 +1,27 @@
-<div class="page-header">
-    <h1>Create Team</h1>
+<div class="panel create-team-header">
+    <div class="panel-heading red-header" style="text-align: center;"><strong>Create Team</strong></div>
+    <form class="create-team-form" ng-submit="team.createTeam(teamData)" ng-init="team.teamData.username = main.username">
+        <label>Name</label>
+        <input class="form-control" type="text" name="name" placeholder="Please enter team name" ng-model="team.teamData.name">
+        <br>
+        <label>Sport</label>
+        <input class="form-control" type="text" name="username" placeholder="Please enter sport" ng-model="team.teamData.type">
+        <br>
+        <label>Age Group</label>
+        <input class="form-control" type="text" name="password" placeholder="Please enter age group of team" ng-model="team.teamData.ageGroup">
+        <br>
+        <button class="btn btn-primary" type="submit">Create Team</button>
+        <br>
+        <div class="jumbotron text-center" ng-show="team.loading">
+            <span class="glyphicon glyphicon-repeat spinner"></span>
+            <p>Loading...</p>
+        </div>
+        <div ng-show="team.successMsg">
+            <div class="alert alert-success">{{team.successMsg}}</div>
+        </div>
+        <br>
+        <div ng-show="team.errorMsg">
+            <div class="alert alert-danger">{{team.errorMsg}}</div>
+        </div>
+    </form>
 </div>
-
-<form ng-submit="team.createTeam(teamData)" ng-init="team.teamData.username = main.username">
-    <label>Name</label>
-    <input class="form-control" type="text" name="name" placeholder="Please enter team name" ng-model="team.teamData.name">
-    <br>
-    <label>Sport</label>
-    <input class="form-control" type="text" name="username" placeholder="Please enter sport" ng-model="team.teamData.type">
-    <br>
-    <label>Age Group</label>
-    <input class="form-control" type="text" name="password" placeholder="Please enter age group of team" ng-model="team.teamData.ageGroup">
-    <br>
-    <button class="btn btn-primary" type="submit">Create Team</button>
-    <br>
-    <div class="jumbotron text-center" ng-show="team.loading">
-        <span class="glyphicon glyphicon-repeat spinner"></span>
-        <p>Loading...</p>
-    </div>
-    <div ng-show="team.successMsg">
-        <div class="alert alert-success">{{team.successMsg}}</div>
-    </div>
-    <br>
-    <div ng-show="team.errorMsg">
-        <div class="alert alert-danger">{{team.errorMsg}}</div>
-    </div>
-</form>

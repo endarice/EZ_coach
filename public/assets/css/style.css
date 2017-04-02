@@ -75,8 +75,47 @@ main {
     border-radius: 8px;
     font-family: Georgia, "Times New Roman", Times, serif;
     position: relative;
-    top: 50%;
     transform: translateY(50%);
+    top: 50%;
+}
+
+.red-header{
+    background-color: #bd081c;
+    border-color: #bd081c;
+    color: #f4f7f8;
+}
+.register-form{
+    max-width: 500px;
+    padding: 10px 20px;
+    background: #f4f7f8;
+    margin: 10px auto;
+    padding: 20px;
+    background: #f4f7f8;
+    border-radius: 8px;
+    font-family: Georgia, "Times New Roman", Times, serif;
+    position: relative;
+    transform: translateY(30%);
+    top: 50%;
+}
+
+.create-team-form{
+    max-width: 500px;
+    padding: 10px 20px;
+    background: #f4f7f8;
+    margin: 10px auto;
+    padding: 20px;
+    background: #f4f7f8;
+    border-radius: 8px;
+    font-family: Georgia, "Times New Roman", Times, serif;
+    position: relative;
+    top: 50%;
+}
+
+.create-team-header{
+    max-width: 500px;
+    margin: 10px auto;
+    background: #f4f7f8;
+    transform: translateY(30%);
 }
 
 header .navbar {

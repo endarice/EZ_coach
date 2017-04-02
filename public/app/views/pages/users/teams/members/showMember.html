@@ -1,20 +1,33 @@
 <div class="container" style="padding-top: 30px">
     <div class="col-sm-3" style="width:400px;">
-        <div class="panel panel-danger">
-            <div class="panel-heading" style="text-align: center;"><strong>Player</strong></div>
+        <div class="panel">
+            <div class="panel-heading red-header" style="text-align: center;"><strong>Player</strong></div>
             <table class="table table-striped table-hover">
                 <tr>
                     <td>{{member.member.fname}} {{member.member.sname}}</td>
                 </tr>
             </table>
         </div>
+        <div class="panel">
+            <div class="panel-heading red-header" style="text-align: center;"><strong>Attendance</strong></div>
+            <table class="table table-striped table-hover">
+                <tr>
+                    <td>Training Sessions Attended</td>
+                    <td> 7 </td>
+                </tr>
+                <tr>
+                    <td>Training Sessions Missed</td>
+                    <td> 18 </td>
+                </tr>
+            </table>
+        </div>
     </div>
     <div class="col-sm-7" style="float: right !important; width:700px;">
-        <div class="panel with-nav-tabs panel-danger">
-            <div class="panel-heading">
+        <div class="panel with-nav-tabs">
+            <div class="panel-heading red-header">
                 <ul class="nav nav-tabs">
                     <li ng-repeat="perfData in member.member.performanceData">
-                        <a ng-click="member.setTempItem(perfData)">{{perfData.type}}</a>
+                        <a ng-click="member.setTempItem(perfData)" style="color: #f4f7f8">{{perfData.type}}</a>
                     </li>
                 </ul>
             </div>
@@ -24,10 +37,10 @@
                 <!--</div>-->
                 <div id="{{member.currentItem}}" class="tab-content">
                     <div class="tab-pane active" role="tabpanel">
-                        <div fusioncharts width="640" height="400" type="msline" chart="{{member.chart}}" categories="{{member.categories}}" dataset="{{member.dataset}}"></div>
+                        <hc-chart options="member.chartOptions">Placeholder for generic chart</hc-chart>
                         <br>
-                        <div class="panel panel-danger">
-                            <div class="panel-heading" style="text-align: center;"><strong>Enter Value for {{member.currentItem.type}} and date recorded</strong></div>
+                        <div class="panel">
+                            <div class="panel-heading red-header" style="text-align: center;"><strong>Enter Value for {{member.currentItem.type}} and date recorded</strong></div>
                             <form class="form-inline add-user-form" ng-submit= "member.performanceValues.type = member.currentItem.type; member.performanceValues.member_id = member.member._id; member.addValues(performanceValues)">
                                 <input class="form-control" type="text" name="value" placeholder="Performance Value" ng-model="member.performanceValues.value">
                                 <label>{{member.currentItem.units}}</label>

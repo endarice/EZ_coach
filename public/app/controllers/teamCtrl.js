@@ -1,7 +1,24 @@
 angular.module('teamControllers', ['teamServices'])
 
-.controller('teamCtrl', function($http, $location, $routeParams, Team, Auth){
+.controller('teamCtrl', function($http, $location, $routeParams, Team, Auth, calendarConfig, moment, $scope) {
     var app = this;
+
+    $scope.events = [
+        {
+            title: 'Editable event',
+            color: calendarConfig.colorTypes.warning,
+            startsAt: moment().startOf('month').toDate(),
+            actions: [{
+                label: '<i class=\'glyphicon glyphicon-pencil\'></i>',
+                onClick: function(args) {
+                    alert.show('Edited', args.calendarEvent);
+                }
+            }]
+        }
+    ];
+
+    $scope.viewDate = moment().startOf('month').toDate();
+    $scope.cellIsOpen = true;
 
     app.name = $routeParams.team_name;
     Auth.getTeam(app.name).then(function (team) {
@@ -10,6 +27,17 @@ angular.module('teamControllers', ['teamServices'])
             app.members = members.data;
         })
     });
+
+    this.addEvent = function() {
+        $scope.events.push({
+            title: 'New event',
+            startsAt: moment().startOf('day').toDate(),
+            endsAt: moment().endOf('day').toDate(),
+            color: calendarConfig.colorTypes.important,
+            draggable: true,
+            resizable: true
+        });
+    };
 
     this.goToMember = function(member) {
         $location.path('/showTeam/'+app.team.name+'/showMember/'+member._id);
